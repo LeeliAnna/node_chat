@@ -14,13 +14,31 @@ var Nadine = "http://192.168.50.22:3000/addmessage";
 var Irene = "http://192.168.50.19:3000/addmessage";
 var Romane = "http://192.168.50.34:3000/addmessage";
 
+// déclaration du socket (établit la connection serveur - client en HTTP et ensuite en WebSocket)
+var socket = io();
+
+
 button.addEventListener('click', function (evt) {
     var theMessage = input.value;
     input.value = "";
-    sendMessage(theMessage);
+    //sendMessage(theMessage);
+    socket.emit("newMessage", {user: myName, msg: theMessage});
 });
 
-CheckServer();
+socket.on('updated', function(data) {
+    console.log(data);
+    var chatArea = document.querySelector(".chat")
+        chatArea.innerHTML = "";
+        for (let i = 0; i < data.length; i++) {
+            chatArea.innerHTML += '<div>' + data[i].user + ": " + data[i].msg + '</div>';
+        }
+});
+
+
+
+
+// Code qui fonctionne avec express !!! remplacer par la gestion en webSocket
+//CheckServer();
 
 function sendMessage(msg) { // envoie du message vers le serveur
     console.log("Envois de données au serveur " + msg);
