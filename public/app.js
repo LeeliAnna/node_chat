@@ -4,6 +4,7 @@
 var button = document.querySelector(".send");
 var input = document.querySelector(".msg");
 var myName = "Gaëlle";
+
 var serverUrl = "http://localhost:3000/addmessage";
 
 var Stephan = "http://192.168.50.17:3000/addmessage";
@@ -16,7 +17,12 @@ var Romane = "http://192.168.50.34:3000/addmessage";
 
 // déclaration du socket (établit la connection serveur - client en HTTP et ensuite en WebSocket)
 var socket = io();
-
+// myName = prompt("Quel est ton nom?");
+var buttonUser = document.querySelector(".assUser");
+var userName = document.querySelector(".name")
+button.addEventListener('click', function() {
+    myName = userName.value;
+})
 
 button.addEventListener('click', function (evt) {
     var theMessage = input.value;
@@ -33,6 +39,8 @@ socket.on('updated', function(data) {
             chatArea.innerHTML += '<div>' + data[i].user + ": " + data[i].msg + '</div>';
         }
 });
+
+
 
 
 
